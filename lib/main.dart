@@ -21,7 +21,13 @@ class MyApp extends StatelessWidget {
                 'Flutter App',
               ),
             ),
-            DiaryCard(),
+            DiaryCard(
+              title: 'Learning English is important',
+              subtitle: 'Noah',
+              description:
+                  'English may not be the most spoken language in the world, but it is the official language of 53 countries and spoken by more than 360 million people',
+              cardColor: 0xffe6ffff,
+            ),
           ],
         ),
       ),

@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
 
 class DiaryCard extends StatefulWidget {
+  final String title;
+  final String subtitle;
+  final String description;
+  final int cardColor;
+
+  DiaryCard({this.cardColor, this.description, this.subtitle, this.title});
+
   @override
   State<StatefulWidget> createState() {
-    return DiaryCardState();
+    return _DiaryCardState();
   }
 }
-class DiaryCardState extends State<DiaryCard> {
+
+class _DiaryCardState extends State<DiaryCard> {
   var descriptionLines = 3;
   String showButtonText = 'more';
   bool isExpanded = false;
 
-  void show(){
-    if(isExpanded){
+  void show() {
+    if (isExpanded) {
       setState(() {
         descriptionLines = 3;
         showButtonText = 'more';
         isExpanded = false;
       });
-    }else{
+    } else {
       setState(() {
         descriptionLines = 1000;
         showButtonText = 'less';
@@ -32,7 +40,7 @@ class DiaryCardState extends State<DiaryCard> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: const Color(0xffe6ffff),
+        color: Color(widget.cardColor),
       ),
       width: double.infinity,
       margin: EdgeInsets.all(10),
@@ -42,7 +50,7 @@ class DiaryCardState extends State<DiaryCard> {
         children: [
           Container(
             child: Text(
-              'Learning English is very important',
+              widget.title,
               maxLines: 2,
               style: TextStyle(
                   color: Color(0xff353839),
@@ -55,7 +63,7 @@ class DiaryCardState extends State<DiaryCard> {
           ),
           Container(
             child: Text(
-              'Noah',
+              widget.subtitle,
               maxLines: 1,
               style: TextStyle(
                   color: Colors.grey,
@@ -68,7 +76,7 @@ class DiaryCardState extends State<DiaryCard> {
           ),
           Container(
             child: Text(
-              'English may not be the most spoken language in the world, but it is the official language of 53 countries and spoken by more than 360 million people',
+              widget.description,
               maxLines: descriptionLines,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
