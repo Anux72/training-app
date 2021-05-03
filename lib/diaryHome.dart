@@ -7,19 +7,20 @@ class DiaryHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        return MaterialApp(
-        home: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Container(
-            constraints: BoxConstraints.expand(),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  "assets/images/background.jpg",
-                ),
-                fit: BoxFit.cover,
+    return MaterialApp(
+      home: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                "assets/images/background.jpg",
               ),
+              fit: BoxFit.cover,
             ),
+          ),
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 DiaryForm(),
@@ -34,6 +35,7 @@ class DiaryHome extends StatelessWidget {
             ),
           ),
         ),
-      );
+      ),
+    );
   }
 }
