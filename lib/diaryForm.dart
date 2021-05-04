@@ -17,7 +17,8 @@ class DiaryForm extends StatefulWidget {
 
 class DiaryFormState extends State<DiaryForm> {
   void clickHandler() {
-    if(widget._formTitleController.text != "" && widget._formDescriptionController.text != "") {
+    if (widget._formTitleController.text != "" &&
+        widget._formDescriptionController.text != "") {
       print(widget._formTitleController.text);
       print(widget._formDescriptionController.text);
       widget._formTitleController.clear();
@@ -115,78 +116,77 @@ class DiaryFormState extends State<DiaryForm> {
               ),
             ),
             (() {
-              if (widget._titleFocused) {
-                return Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
-                      padding: EdgeInsets.fromLTRB(20, 10, 0, 30),
-                      decoration: BoxDecoration(
-                        color: Color(0x4473a9f5),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                      ),
-                      child: Focus(
-                        child: TextFormField(
-                          controller: widget._formDescriptionController,
-                          focusNode: widget._descriptionFocusNode,
-                          textAlignVertical: TextAlignVertical.top,
-                          expands: false,
-                          maxLines: 3,
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                              color: Colors.black26,
-                              fontSize: 22,
+              return widget._titleFocused
+                  ? Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                          padding: EdgeInsets.fromLTRB(20, 10, 0, 30),
+                          decoration: BoxDecoration(
+                            color: Color(0x4473a9f5),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
                             ),
-                            hintText: "Description",
-                            alignLabelWithHint: true,
-                            border: InputBorder.none,
                           ),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
-                          ),
-                        ),
-                        onFocusChange: (hasFocus) {
-                          if (!hasFocus &&
-                              !widget._titleFocusNode.hasFocus &&
-                              widget._formTitleController.text == "" &&
-                              widget._formDescriptionController.text == "") {
-                            setState(() {
-                              widget._titleFocused = false;
-                              widget._titleLength = 200;
-                            });
-                          }
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                      ),
-                      child: TextButton(
-                        onPressed: clickHandler,
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
+                          child: Focus(
+                            child: TextFormField(
+                              controller: widget._formDescriptionController,
+                              focusNode: widget._descriptionFocusNode,
+                              textAlignVertical: TextAlignVertical.top,
+                              expands: false,
+                              maxLines: 3,
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                  color: Colors.black26,
+                                  fontSize: 22,
+                                ),
+                                hintText: "Description",
+                                alignLabelWithHint: true,
+                                border: InputBorder.none,
+                              ),
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22,
+                              ),
+                            ),
+                            onFocusChange: (hasFocus) {
+                              if (!hasFocus &&
+                                  !widget._titleFocusNode.hasFocus &&
+                                  widget._formTitleController.text == "" &&
+                                  widget._formDescriptionController.text ==
+                                      "") {
+                                setState(() {
+                                  widget._titleFocused = false;
+                                  widget._titleLength = 200;
+                                });
+                              }
+                            },
                           ),
                         ),
-                      ),
-                    ),
-                  ],
-                );
-              } else {
-                return Container();
-              }
+                        Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                          ),
+                          child: TextButton(
+                            onPressed: clickHandler,
+                            child: Text(
+                              "Submit",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container();
             }())
           ],
         ),
