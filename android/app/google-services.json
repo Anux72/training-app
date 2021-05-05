@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "635350987112",
+    "project_id": "dear-diary-anushka",
+    "storage_bucket": "dear-diary-anushka.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635350987112:android:30ac9b2b29c18df8bae6dd",
+        "android_client_info": {
+          "package_name": "com.fcodelabs.training_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635350987112-se8bf0kdcea2sq3b9p561d9i1m3eskmg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx8cqa2J6k-E3cNRrJJjsRhkQZtdOvSDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635350987112-se8bf0kdcea2sq3b9p561d9i1m3eskmg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

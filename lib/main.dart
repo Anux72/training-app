@@ -5,8 +5,11 @@ import 'package:training_app/diaryCard.dart';
 
 import './diaryHome.dart';
 import 'diaryHome.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
