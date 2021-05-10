@@ -33,6 +33,8 @@ dependencies:
   cloud_firestore: ^1.0.7
   firebase_core: ^1.1.0
   fcode_bloc: ^0.6.0
+  bloc: ^7.0.0
+  fcode_common: ^0.1.1
 
 dev_dependencies:
   flutter_test:
@@ -49,7 +51,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/images/background.jpg
+    - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
