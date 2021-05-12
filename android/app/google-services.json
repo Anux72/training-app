@@ -7,7 +7,11 @@
   "client": [
     {
       "client_info": {
+<<<<<<< Updated upstream
         "mobilesdk_app_id": "1:635350987112:android:30ac9b2b29c18df8bae6dd",
+=======
+        "mobilesdk_app_id": "1:635350987112:android:c5ba68743a35a3f5bae6dd",
+>>>>>>> Stashed changes
         "android_client_info": {
           "package_name": "com.fcodelabs.training_app"
         }

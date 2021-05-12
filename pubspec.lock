@@ -9,7 +9,11 @@ packages:
     source: hosted
     version: "2.5.0"
   bloc:
+<<<<<<< Updated upstream
     dependency: "direct main"
+=======
+    dependency: transitive
+>>>>>>> Stashed changes
     description:
       name: bloc
       url: "https://pub.dartlang.org"
@@ -84,7 +88,11 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
     version: "1.0.3"
+=======
+    version: "1.0.2"
+>>>>>>> Stashed changes
   device_info:
     dependency: transitive
     description:
@@ -135,7 +143,11 @@ packages:
     source: hosted
     version: "6.1.0"
   firebase_core:
+<<<<<<< Updated upstream
     dependency: "direct main"
+=======
+    dependency: transitive
+>>>>>>> Stashed changes
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
@@ -190,7 +202,11 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
     version: "0.13.3"
+=======
+    version: "0.13.2"
+>>>>>>> Stashed changes
   http_parser:
     dependency: transitive
     description:

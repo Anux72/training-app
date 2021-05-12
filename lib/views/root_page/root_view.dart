@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:fcode_common/fcode_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:training_app/views/home_page/home_page.dart';
 import 'package:training_app/views/root_page/root_event.dart';
 
 import 'root_bloc.dart';
@@ -11,6 +14,13 @@ class RootView extends StatelessWidget {
 
   final controller = TextEditingController();
   final focusNode = FocusNode();
+  static const randomNickNames = [
+    "James",
+    "William",
+    "Noah",
+    "Logan",
+    "Benjamin"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +40,13 @@ class RootView extends StatelessWidget {
         child: Column(
           children: [
             BlocBuilder<RootBloc, RootState>(
-              buildWhen: (pre, current) => pre.margin != current.margin,
+              buildWhen: (pre, current) =>
+                  (pre.text.isNotEmpty && current.text.isEmpty) ||
+                  (pre.text.isEmpty && current.text.isNotEmpty),
               builder: (context, state) {
                 return Container(
-                  margin: EdgeInsets.fromLTRB(0, 85 + state.margin, 0, 30),
+                  margin: EdgeInsets.fromLTRB(
+                      0, 85.0 + (state.text.isEmpty ? 0 : 14), 0, 30),
                   child: Text(
                     "Dear Diary",
                     style: TextStyle(
@@ -71,7 +84,8 @@ class RootView extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: BlocBuilder<RootBloc, RootState>(
                       buildWhen: (pre, current) =>
-                          pre.borderColor != current.borderColor,
+                          (pre.text.isNotEmpty && current.text.isEmpty) ||
+                          (pre.text.isEmpty && current.text.isNotEmpty),
                       builder: (context, state) {
                         return TextFormField(
                           controller: controller,
@@ -86,13 +100,16 @@ class RootView extends StatelessWidget {
                             border: InputBorder.none,
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                              color: state.borderColor,
+                              color: state.text.isEmpty
+                                  ? Colors.red
+                                  : Color(0xff1689cc),
                             )),
                             contentPadding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                             labelText: "Your Nickname*",
                             labelStyle: TextStyle(
                               height: 0.5,
-                              color: state.labelColor,
+                              color:
+                                  state.text.isEmpty ? Colors.red : Colors.grey,
                               fontSize: 20,
                             ),
                           ),
@@ -112,9 +129,10 @@ class RootView extends StatelessWidget {
                   ),
                   BlocBuilder<RootBloc, RootState>(
                     buildWhen: (pre, current) =>
-                        pre.borderColor != current.borderColor,
+                        (pre.text.isNotEmpty && current.text.isEmpty) ||
+                        (pre.text.isEmpty && current.text.isNotEmpty),
                     builder: (context, state) {
-                      return state.text == ""
+                      return state.text.isEmpty
                           ? Container(
                               width: double.infinity,
                               margin: EdgeInsets.fromLTRB(40, 0, 0, 20),
@@ -132,8 +150,18 @@ class RootView extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.fromLTRB(0, 10, 0, 30),
                     child: TextButton(
-                      onPressed: () =>
-                          rootBloc.add(RandomEvent(controller, focusNode)),
+                      onPressed: () => () {
+                        String randomName = "";
+                        while (controller.text == randomName ||
+                            randomName.isEmpty) {
+                          final _random = new Random();
+                          final index = _random.nextInt(5);
+                          randomName = randomNickNames[index];
+                        }
+                        controller.text = randomName;
+                        focusNode.unfocus();
+                        rootBloc.add(RandomEvent(randomName));
+                      }(),
                       style: ButtonStyle(
                         overlayColor:
                             MaterialStateProperty.resolveWith((states) {
@@ -166,13 +194,24 @@ class RootView extends StatelessWidget {
                     margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: BlocBuilder<RootBloc, RootState>(
                       buildWhen: (pre, current) =>
-                          pre.buttonBackgroundColor !=
-                          current.buttonBackgroundColor,
+                          (pre.text.isNotEmpty && current.text.isEmpty) ||
+                          (pre.text.isEmpty && current.text.isNotEmpty),
                       builder: (context, state) {
                         return TextButton(
-                          onPressed: state.text != ""
-                              ? () => rootBloc.add(
-                                  ContinueEvent(context, controller, focusNode))
+                          onPressed: state.text.isNotEmpty
+                              ? () => () {
+                                    final text = controller.text;
+                                    focusNode.unfocus();
+                                    controller.clear();
+                                    rootBloc.add(TextChangeEvent(""));
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) {
+                                          return DiaryHome(text);
+                                        },
+                                      ),
+                                    );
+                                  }()
                               : null,
                           style: ButtonStyle(
                             overlayColor:
@@ -185,7 +224,10 @@ class RootView extends StatelessWidget {
                                 MaterialStateProperty.all<EdgeInsetsGeometry>(
                                     EdgeInsets.all(14)),
                             backgroundColor: MaterialStateProperty.all<Color>(
-                                state.buttonBackgroundColor),
+                              state.text.isEmpty
+                                  ? Color(0x66bfbfbf)
+                                  : Color(0xff1689cc),
+                            ),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
@@ -197,7 +239,9 @@ class RootView extends StatelessWidget {
                             "CONTINUE \u{2794}",
                             style: TextStyle(
                               fontSize: 22,
-                              color: state.buttonTextColor,
+                              color: state.text.isEmpty
+                                  ? Color(0x22000000)
+                                  : Colors.white,
                             ),
                           ),
                         );

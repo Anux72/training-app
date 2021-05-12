@@ -16,16 +16,7 @@ class TextChangeEvent extends RootEvent {
 }
 
 class RandomEvent extends RootEvent {
-  final TextEditingController controller;
-  final FocusNode focusNode;
+  final String randomName;
 
-  RandomEvent(this.controller, this.focusNode);
-}
-
-class ContinueEvent extends RootEvent {
-  final BuildContext context;
-  final TextEditingController controller;
-  final FocusNode focusNode;
-
-  ContinueEvent(this.context, this.controller, this.focusNode);
+  RandomEvent(this.randomName);
 }
