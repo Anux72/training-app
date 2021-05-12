@@ -2,31 +2,26 @@ import 'package:flutter/material.dart';
 
 @immutable
 class DiaryCardState {
-  final String buttonText;
-  final int descriptionLines;
   final String error;
+  final bool clicked;
 
   DiaryCardState({
-    @required this.buttonText,
-    @required this.descriptionLines,
     @required this.error,
+    @required this.clicked,
   });
 
   static DiaryCardState get initialState => DiaryCardState(
-        buttonText: "more",
-        descriptionLines: 3,
         error: '',
+        clicked: false,
       );
 
   DiaryCardState clone({
-    String buttonText,
-    int descriptionLines,
     String error,
+    bool clicked,
   }) {
     return DiaryCardState(
-      buttonText: buttonText ?? this.buttonText,
-      descriptionLines: descriptionLines ?? this.descriptionLines,
       error: error ?? this.error,
+      clicked: clicked ?? this.clicked,
     );
   }
 }

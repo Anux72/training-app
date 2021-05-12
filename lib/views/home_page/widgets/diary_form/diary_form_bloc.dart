@@ -1,22 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fcode_common/fcode_common.dart';
-import 'package:flutter/material.dart';
-import 'package:training_app/db/models/child.dart';
-import 'package:training_app/db/repo/child_repository.dart';
+import 'package:flutter/cupertino.dart';
 
-import 'diary_form_event.dart';
-import 'diary_form_state.dart';
+import 'diary_form_page.dart';
 
 class DiaryFormBloc extends Bloc<DiaryFormEvent, DiaryFormState> {
-  static final log = Log("DiaryFormBloc");
-  final childRepo = ChildRepository();
-  final String nickName;
+  static final log = Log("diary_formBloc");
 
-  DiaryFormBloc(this.nickName, BuildContext context)
-      : super(DiaryFormState.initialState);
+  DiaryFormBloc(BuildContext context) : super(DiaryFormState.initialState);
 
   @override
   Stream<DiaryFormState> mapEventToState(DiaryFormEvent event) async* {
@@ -27,78 +20,34 @@ class DiaryFormBloc extends Bloc<DiaryFormEvent, DiaryFormState> {
         yield state.clone(error: "");
         yield state.clone(error: error);
         break;
+
       case TitleFocusEvent:
         final hasFocus = (event as TitleFocusEvent).titleHasFocus;
-        final focusNode = (event as TitleFocusEvent).focusNode;
-        if (hasFocus) {
-          yield state.clone(
-              titleHasFocus: hasFocus,
-              margin: 25,
-              descriptionHeight: 150,
-              buttonHeight: 50);
-        } else if (state.titleText == "" &&
-            state.descriptionText == "" &&
-            !focusNode.hasFocus) {
-          yield state.clone(
-              titleHasFocus: hasFocus,
-              margin: 200,
-              descriptionHeight: 0,
-              buttonHeight: 0);
-        } else {
-          yield state.clone(titleHasFocus: hasFocus);
-        }
+        yield state.clone(titleHasFocus: hasFocus);
         break;
+
       case DescriptionFocusEvent:
         final hasFocus = (event as DescriptionFocusEvent).descriptionHasFocus;
-        final focusNode = (event as DescriptionFocusEvent).focusNode;
-        if (hasFocus) {
-          yield state.clone(titleHasFocus: hasFocus);
-        } else if (state.titleText == "" &&
-            state.descriptionText == "" &&
-            !focusNode.hasFocus) {
-          yield state.clone(
-              titleHasFocus: hasFocus,
-              margin: 200,
-              descriptionHeight: 0,
-              buttonHeight: 0);
-        } else {
-          yield state.clone(titleHasFocus: hasFocus);
-        }
+        yield state.clone(descriptionHasFocus: hasFocus);
         break;
+
       case TitleTextEvent:
         final titleText = (event as TitleTextEvent).titleText;
         yield (state.clone(titleText: titleText));
         break;
+
       case DescriptionTextEvent:
         final descriptionText = (event as DescriptionTextEvent).descriptionText;
         yield (state.clone(descriptionText: descriptionText));
         break;
+
       case SubmitEvent:
-        final titleText = (event as SubmitEvent).titleText;
-        final descriptionText = (event as SubmitEvent).descriptionText;
-        final titleFocusNode = (event as SubmitEvent).titleFocusNode;
-        final descriptionFocusNode =
-            (event as SubmitEvent).descriptionFocusNode;
-        if (state.titleText != "" && state.descriptionText != "") {
-          final child = Child(
-            title: state.titleText,
-            subtitle: nickName,
-            description: state.descriptionText,
-            timestamp: Timestamp.now().millisecondsSinceEpoch,
-            cardColor: 0xffe6ffff,
-          );
-          childRepo.add(item: child);
-          titleText.clear();
-          descriptionText.clear();
-          yield state.clone(
-              titleHasFocus: titleFocusNode.hasFocus,
-              descriptionHasFocus: descriptionFocusNode.hasFocus,
-              titleText: "",
-              descriptionText: "",
-              margin: 200,
-              buttonHeight: 0,
-              descriptionHeight: 0);
-        }
+        yield state.clone(
+          titleHasFocus: false,
+          descriptionHasFocus: false,
+          titleText: "",
+          descriptionText: "",
+        );
     }
   }
 

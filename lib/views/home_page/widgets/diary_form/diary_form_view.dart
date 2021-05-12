@@ -1,17 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fcode_common/fcode_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'diary_form_bloc.dart';
+import 'package:training_app/db/models/child.dart';
+import 'package:training_app/db/repo/child_repository.dart';
 import 'diary_form_page.dart';
-import 'diary_form_state.dart';
 
 class DiaryFormView extends StatelessWidget {
-  final FocusNode titleFocusNode = FocusNode();
-  final FocusNode descriptionFocusNode = FocusNode();
   final TextEditingController titleText = TextEditingController();
   final TextEditingController descriptionText = TextEditingController();
   static final log = Log("DiaryFormView");
+  final childRepo = ChildRepository();
+  final String nickName;
+
+  DiaryFormView(this.nickName) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,16 @@ class DiaryFormView extends StatelessWidget {
       width: double.infinity,
       margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
       child: BlocBuilder<DiaryFormBloc, DiaryFormState>(
-        buildWhen: (pre, current) => pre.margin != current.margin,
+        buildWhen: (pre, current) =>
+            (!pre.titleHasFocus &&
+                current.titleHasFocus &&
+                !pre.descriptionHasFocus &&
+                current.titleText.isEmpty &&
+                current.descriptionText.isEmpty) ||
+            (current.titleText.isEmpty &&
+                current.descriptionText.isEmpty &&
+                !current.titleHasFocus &&
+                !current.descriptionHasFocus),
         builder: (context, state) => Column(
           children: [
             AnimatedContainer(
@@ -37,12 +49,12 @@ class DiaryFormView extends StatelessWidget {
                   Radius.circular(20),
                 ),
               ),
-              margin: EdgeInsets.fromLTRB(25, 0, state.margin, 0),
+              margin:
+                  EdgeInsets.fromLTRB(25, 0, state.titleHasFocus ? 25 : 200, 0),
               padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: Focus(
                 child: TextFormField(
                   controller: titleText,
-                  focusNode: titleFocusNode,
                   onChanged: (value) =>
                       diaryFormBloc.add(TitleTextEvent(value)),
                   decoration: InputDecoration(
@@ -59,17 +71,14 @@ class DiaryFormView extends StatelessWidget {
                   ),
                 ),
                 onFocusChange: (hasFocus) {
-                  diaryFormBloc.add(TitleFocusEvent(
-                    hasFocus,
-                    descriptionFocusNode,
-                  ));
+                  diaryFormBloc.add(TitleFocusEvent(hasFocus));
                 },
               ),
             ),
             Column(
               children: [
                 AnimatedContainer(
-                  height: state.descriptionHeight,
+                  height: state.titleHasFocus ? 150 : 0,
                   duration: Duration(
                     milliseconds: 400,
                   ),
@@ -88,7 +97,6 @@ class DiaryFormView extends StatelessWidget {
                       onChanged: (value) =>
                           diaryFormBloc.add(DescriptionTextEvent(value)),
                       controller: descriptionText,
-                      focusNode: descriptionFocusNode,
                       textAlignVertical: TextAlignVertical.top,
                       expands: false,
                       maxLines: 3,
@@ -107,15 +115,12 @@ class DiaryFormView extends StatelessWidget {
                       ),
                     ),
                     onFocusChange: (hasFocus) {
-                      diaryFormBloc.add(DescriptionFocusEvent(
-                        hasFocus,
-                        titleFocusNode,
-                      ));
+                      diaryFormBloc.add(DescriptionFocusEvent(hasFocus));
                     },
                   ),
                 ),
                 AnimatedContainer(
-                  height: state.buttonHeight,
+                  height: state.titleHasFocus ? 50 : 0,
                   duration: Duration(
                     milliseconds: 400,
                   ),
@@ -137,12 +142,23 @@ class DiaryFormView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () => diaryFormBloc.add(SubmitEvent(
-                      titleText,
-                      descriptionText,
-                      titleFocusNode,
-                      descriptionFocusNode,
-                    )),
+                    onPressed: () {
+                      if (titleText.text.isNotEmpty &&
+                          descriptionText.text.isNotEmpty) {
+                        final child = Child(
+                          title: titleText.text,
+                          subtitle: nickName,
+                          description: descriptionText.text,
+                          timestamp: Timestamp.now().millisecondsSinceEpoch,
+                          cardColor: 0xffe6ffff,
+                        );
+                        childRepo.add(item: child);
+                        titleText.clear();
+                        descriptionText.clear();
+                        FocusScope.of(context).focusedChild.unfocus();
+                        diaryFormBloc.add(SubmitEvent());
+                      }
+                    },
                     child: Text(
                       "Submit",
                       style: TextStyle(

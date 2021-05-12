@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_app/views/home_page/widgets/diary_card/diary_card_page.dart';
 
-import 'diary_cards_bloc.dart';
-import 'diary_cards_state.dart';
+import 'diary_cards_page.dart';
 
 class DiaryCardsView extends StatelessWidget {
   static final log = Log("DiaryCardsView");
@@ -16,7 +15,6 @@ class DiaryCardsView extends StatelessWidget {
     return BlocBuilder<DiaryCardsBloc, DiaryCardsState>(
       buildWhen: (pre, current) => !identical(pre.children, current.children),
       builder: (context, state) {
-        print("Building diaryCards ${state.children}");
         if (state.children == null) {
           return Container();
         }

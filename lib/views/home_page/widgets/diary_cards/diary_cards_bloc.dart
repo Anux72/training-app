@@ -4,10 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:fcode_bloc/fcode_bloc.dart';
 import 'package:fcode_common/fcode_common.dart';
 import 'package:flutter/material.dart';
-import 'package:training_app/db/repo/child_repository.dart';
 
-import 'diary_cards_event.dart';
-import 'diary_cards_state.dart';
+import 'package:training_app/db/repo/child_repository.dart';
+import 'diary_cards_page.dart';
 
 class DiaryCardsBloc extends Bloc<DiaryCardsEvent, DiaryCardsState> {
   static final log = Log("DiaryCardsBloc");

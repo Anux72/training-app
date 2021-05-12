@@ -11,9 +11,8 @@ class ErrorEvent extends DiaryFormEvent {
 
 class TitleFocusEvent extends DiaryFormEvent {
   final bool titleHasFocus;
-  final FocusNode focusNode;
 
-  TitleFocusEvent(this.titleHasFocus, this.focusNode);
+  TitleFocusEvent(this.titleHasFocus);
 }
 
 class TitleTextEvent extends DiaryFormEvent {
@@ -30,17 +29,8 @@ class DescriptionTextEvent extends DiaryFormEvent {
 
 class DescriptionFocusEvent extends DiaryFormEvent {
   final bool descriptionHasFocus;
-  final FocusNode focusNode;
 
-  DescriptionFocusEvent(this.descriptionHasFocus, this.focusNode);
+  DescriptionFocusEvent(this.descriptionHasFocus);
 }
 
-class SubmitEvent extends DiaryFormEvent {
-  final FocusNode titleFocusNode;
-  final TextEditingController titleText;
-  final TextEditingController descriptionText;
-  final FocusNode descriptionFocusNode;
-
-  SubmitEvent(this.titleText, this.descriptionText, this.titleFocusNode,
-      this.descriptionFocusNode);
-}
+class SubmitEvent extends DiaryFormEvent {}

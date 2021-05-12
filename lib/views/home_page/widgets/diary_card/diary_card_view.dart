@@ -1,10 +1,8 @@
 import 'package:fcode_common/fcode_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'diary_card_page.dart';
 
-import 'diary_card_bloc.dart';
-import 'diary_card_event.dart';
+import 'diary_card_page.dart';
 
 class DiaryCardView extends StatelessWidget {
   final String title;
@@ -66,11 +64,10 @@ class DiaryCardView extends StatelessWidget {
           Container(
             margin: EdgeInsets.fromLTRB(8, 0, 0, 30),
             child: BlocBuilder<DiaryCardBloc, DiaryCardState>(
-              buildWhen: (pre, current) =>
-                  pre.descriptionLines != current.descriptionLines,
+              buildWhen: (pre, current) => pre.clicked != current.clicked,
               builder: (context, state) => Text(
                 description,
-                maxLines: state.descriptionLines,
+                maxLines: state.clicked ? 10 : 3,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 21,
@@ -83,9 +80,9 @@ class DiaryCardView extends StatelessWidget {
           TextButton(
             onPressed: () => diaryCardBloc.add(PressEvent()),
             child: BlocBuilder<DiaryCardBloc, DiaryCardState>(
-              buildWhen: (pre, current) => pre.buttonText != current.buttonText,
+              buildWhen: (pre, current) => pre.clicked != current.clicked,
               builder: (context, state) => Text(
-                'Show ' + state.buttonText,
+                'Show ' + (state.clicked ? "less" : "more"),
                 style: TextStyle(
                   color: Color(0xff353839),
                   fontWeight: FontWeight.w700,

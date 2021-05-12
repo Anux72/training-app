@@ -4,8 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:fcode_common/fcode_common.dart';
 import 'package:flutter/material.dart';
 
-import 'diary_card_event.dart';
-import 'diary_card_state.dart';
+import 'diary_card_page.dart';
 
 class DiaryCardBloc extends Bloc<DiaryCardEvent, DiaryCardState> {
   static final log = Log("diary_cardBloc");
@@ -22,11 +21,7 @@ class DiaryCardBloc extends Bloc<DiaryCardEvent, DiaryCardState> {
         yield state.clone(error: error);
         break;
       case PressEvent:
-        if (state.buttonText == "more") {
-          yield state.clone(descriptionLines: 1000, buttonText: "less");
-        } else {
-          yield state.clone(descriptionLines: 3, buttonText: "more");
-        }
+        yield state.clone(clicked: !state.clicked);
     }
   }
 

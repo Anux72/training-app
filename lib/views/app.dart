@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:training_app/views/root_page/root_page.dart';
+
+import 'sign_in_page/sign_in_page.dart';
 
 class App extends StatelessWidget {
-  // This widget is the root of your application.
+  // This widget is the SignIn of your application.
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -24,7 +25,7 @@ class App extends StatelessWidget {
             }
             return MaterialApp(
               title: 'Fcode Demo App',
-              home: RootProvider(),
+              home: SignInProvider(),
             );
           }),
     );
